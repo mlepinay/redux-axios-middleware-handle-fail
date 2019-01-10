@@ -273,7 +273,7 @@ var onSuccess = exports.onSuccess = function onSuccess(_ref, options) {
       previousAction: action
     }
   };
-  if (response.status >= 400) {
+  if (response.response.status >= 400) {
     delete nextAction.payload;
     nextAction.type = (0, _getActionTypes.getActionTypes)(action, options)[2];
     nextAction.error = response;
