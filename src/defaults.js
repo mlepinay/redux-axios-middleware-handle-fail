@@ -20,6 +20,11 @@ export const onSuccess = ({ action, next, response }, options) => {
       previousAction: action
     }
   };
+  if (response.status >= 400) {
+    delete nextAction.payload;
+    nextAction.type = getActionTypes(action, options)[2];
+    nextAction.error = response;
+  }
   next(nextAction);
   return nextAction;
 };

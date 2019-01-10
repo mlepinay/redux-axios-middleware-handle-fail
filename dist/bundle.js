@@ -16,9 +16,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -273,6 +273,11 @@ var onSuccess = exports.onSuccess = function onSuccess(_ref, options) {
       previousAction: action
     }
   };
+  if (response.status >= 400) {
+    delete nextAction.payload;
+    nextAction.type = (0, _getActionTypes.getActionTypes)(action, options)[2];
+    nextAction.error = response;
+  }
   next(nextAction);
   return nextAction;
 };
@@ -307,10 +312,59 @@ var onError = exports.onError = function onError(_ref2, options) {
 };
 
 var onComplete = exports.onComplete = function onComplete() {};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _middleware = __webpack_require__(1);
+
+Object.defineProperty(exports, 'default', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_middleware).default;
+  }
+});
+Object.defineProperty(exports, 'multiClientMiddleware', {
+  enumerable: true,
+  get: function get() {
+    return _middleware.multiClientMiddleware;
+  }
+});
+
+var _getActionTypes = __webpack_require__(0);
+
+Object.defineProperty(exports, 'getActionTypes', {
+  enumerable: true,
+  get: function get() {
+    return _getActionTypes.getActionTypes;
+  }
+});
+Object.defineProperty(exports, 'ERROR_SUFFIX', {
+  enumerable: true,
+  get: function get() {
+    return _getActionTypes.ERROR_SUFFIX;
+  }
+});
+Object.defineProperty(exports, 'SUCCESS_SUFFIX', {
+  enumerable: true,
+  get: function get() {
+    return _getActionTypes.SUCCESS_SUFFIX;
+  }
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -483,6 +537,10 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
@@ -494,55 +552,6 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _middleware = __webpack_require__(1);
-
-Object.defineProperty(exports, 'default', {
-  enumerable: true,
-  get: function get() {
-    return _interopRequireDefault(_middleware).default;
-  }
-});
-Object.defineProperty(exports, 'multiClientMiddleware', {
-  enumerable: true,
-  get: function get() {
-    return _middleware.multiClientMiddleware;
-  }
-});
-
-var _getActionTypes = __webpack_require__(0);
-
-Object.defineProperty(exports, 'getActionTypes', {
-  enumerable: true,
-  get: function get() {
-    return _getActionTypes.getActionTypes;
-  }
-});
-Object.defineProperty(exports, 'ERROR_SUFFIX', {
-  enumerable: true,
-  get: function get() {
-    return _getActionTypes.ERROR_SUFFIX;
-  }
-});
-Object.defineProperty(exports, 'SUCCESS_SUFFIX', {
-  enumerable: true,
-  get: function get() {
-    return _getActionTypes.SUCCESS_SUFFIX;
-  }
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ })
 /******/ ]);
