@@ -273,8 +273,7 @@ var onSuccess = exports.onSuccess = function onSuccess(_ref, options) {
       previousAction: action
     }
   };
-  console.log(response);
-  if (response.status >= 400) {
+  if (response instanceof Error) {
     delete nextAction.payload;
     nextAction.type = (0, _getActionTypes.getActionTypes)(action, options)[2];
     nextAction.error = response;
